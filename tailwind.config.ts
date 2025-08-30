@@ -61,7 +61,22 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				trust: {
+					DEFAULT: 'hsl(var(--trust))',
+					foreground: 'hsl(var(--trust-foreground))'
+				},
+				secure: {
+					DEFAULT: 'hsl(var(--secure))',
+					foreground: 'hsl(var(--secure-foreground))'
 				}
+			},
+			backgroundImage: {
+				'gradient-trust': 'var(--gradient-trust)',
+				'gradient-secure': 'var(--gradient-secure)'
+			},
+			boxShadow: {
+				'secure': 'var(--shadow-secure)'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
