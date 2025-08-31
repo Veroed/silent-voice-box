@@ -10,6 +10,7 @@ interface Message {
   id: string;
   content: string;
   timestamp: string;
+  nickname?: string;
   anonymous: boolean;
 }
 
@@ -254,9 +255,11 @@ const AdminDashboard = ({ groupCode: initialGroupCode, adminKey: initialAdminKey
                   <Card key={message.id} className="hover:shadow-md transition-shadow">
                     <CardContent className="pt-4">
                       <div className="flex justify-between items-start mb-2">
-                        <span className="text-xs text-muted-foreground bg-accent/50 px-2 py-1 rounded">
-                          Anonymous • {formatDate(message.timestamp)}
-                        </span>
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs text-muted-foreground bg-accent/50 px-2 py-1 rounded">
+                            {message.nickname || 'Anonymous'} • {formatDate(message.timestamp)}
+                          </span>
+                        </div>
                         <div className="flex gap-2">
                           <Button
                             size="sm"
@@ -305,7 +308,7 @@ const AdminDashboard = ({ groupCode: initialGroupCode, adminKey: initialAdminKey
               <CardHeader>
                 <div className="flex justify-between items-start">
                   <div>
-                    <CardTitle>Anonymous Message</CardTitle>
+                    <CardTitle>{selectedMessage.nickname || 'Anonymous'} Message</CardTitle>
                     <CardDescription>{formatDate(selectedMessage.timestamp)}</CardDescription>
                   </div>
                   <Button

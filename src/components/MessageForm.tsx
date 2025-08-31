@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { ArrowLeft, Send, Shield, CheckCircle } from "lucide-react";
+import { ArrowLeft, Send, Shield, CheckCircle, User } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { getUserNickname } from "@/lib/nickname-utils";
 
 interface MessageFormProps {
   groupCode: string;
@@ -15,7 +16,16 @@ const MessageForm = ({ groupCode, companyName, onBack }: MessageFormProps) => {
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [messagesSent, setMessagesSent] = useState(0);
+  const [userNickname, setUserNickname] = useState("");
   const { toast } = useToast();
+
+  useEffect(() => {
+    const initNickname = async () => {
+      const nickname = await getUserNickname();
+      setUserNickname(nickname);
+    };
+    initNickname();
+  }, []);
 
   const handleSubmitMessage = async () => {
     if (!message.trim()) {
@@ -38,11 +48,12 @@ const MessageForm = ({ groupCode, companyName, onBack }: MessageFormProps) => {
 
       const groupData = JSON.parse(storedGroup);
       
-      // Add new message
+      // Add new message with nickname
       const newMessage = {
         id: Date.now().toString(),
         content: message.trim(),
         timestamp: new Date().toISOString(),
+        nickname: userNickname,
         anonymous: true
       };
 
@@ -93,6 +104,19 @@ const MessageForm = ({ groupCode, companyName, onBack }: MessageFormProps) => {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
+            {userNickname && (
+              <div className="bg-accent/30 border border-accent/50 rounded-lg p-3">
+                <div className="flex items-center text-sm">
+                  <User className="h-4 w-4 mr-2 text-primary" />
+                  <span className="text-muted-foreground">Posting as:</span>
+                  <span className="ml-2 font-medium text-foreground">{userNickname}</span>
+                </div>
+                <p className="text-xs text-muted-foreground mt-1">
+                  This nickname is automatically generated from your device and stays the same for all your messages.
+                </p>
+              </div>
+            )}
+            
             <div className="space-y-2">
               <label htmlFor="message" className="text-sm font-medium text-foreground">
                 Your Anonymous Message
