@@ -1,0 +1,80 @@
+{
+  "app": {
+    "title": "صندوق الصوت الصامت",
+    "subtitle": "ملاحظات مجهولة لفريقك"
+  },
+  "landing": {
+    "welcome": "مرحباً بك في صندوق الصوت الصامت",
+    "description": "أنشئ مجموعات ملاحظات مجهولة أو انضم إلى مجموعات موجودة لمشاركة الأفكار بأمان",
+    "createGroup": "إنشاء مجموعة",
+    "joinGroup": "انضم للمجموعة",
+    "adminAccess": "وصول المدير"
+  },
+  "createGroup": {
+    "title": "إنشاء مجموعة ملاحظات مجهولة",
+    "companyName": "اسم الشركة/الفريق",
+    "companyPlaceholder": "أدخل اسم شركتك أو فريقك",
+    "createButton": "إنشاء مجموعة",
+    "back": "رجوع",
+    "success": "تم إنشاء المجموعة بنجاح!",
+    "groupCode": "رمز المجموعة",
+    "adminKey": "مفتاح المدير",
+    "copyCode": "نسخ رمز المجموعة",
+    "copyKey": "نسخ مفتاح المدير",
+    "downloadQR": "تحميل رمز QR",
+    "viewDashboard": "عرض لوحة التحكم",
+    "shareInfo": "شارك رمز المجموعة أو رمز QR مع أعضاء فريقك"
+  },
+  "joinGroup": {
+    "title": "انضم لمجموعة الملاحظات المجهولة",
+    "groupCode": "رمز المجموعة",
+    "groupPlaceholder": "أدخل رمز المجموعة",
+    "joinButton": "انضم بشكل مجهول",
+    "back": "رجوع",
+    "typeCode": "اكتب الرمز",
+    "scanQR": "مسح QR",
+    "privacy": "ستكون ملاحظاتك مجهولة تماماً. منشئ المجموعة فقط يمكنه رؤية الرسائل."
+  },
+  "messageForm": {
+    "title": "ملاحظات مجهولة",
+    "subtitle": "صوتك مهم. شارك أفكارك بأمان.",
+    "messagePlaceholder": "شارك أفكارك، مخاوفك أو اقتراحاتك...",
+    "sendButton": "إرسال رسالة مجهولة",
+    "back": "رجوع",
+    "privacy": "مجهول 100%",
+    "privacyDesc": "هويتك محمية",
+    "success": "تم إرسال الرسالة بنجاح!",
+    "nickname": "اسمك المستعار المجهول"
+  },
+  "adminDashboard": {
+    "title": "لوحة تحكم المدير",
+    "login": "تسجيل دخول المدير",
+    "groupCode": "رمز المجموعة",
+    "adminKey": "مفتاح المدير",
+    "loginButton": "تسجيل الدخول",
+    "back": "رجوع",
+    "totalMessages": "إجمالي الرسائل",
+    "createdOn": "تم الإنشاء في",
+    "noMessages": "لا توجد رسائل بعد",
+    "viewMessage": "عرض",
+    "deleteMessage": "حذف",
+    "confirmDelete": "هل أنت متأكد من حذف هذه الرسالة؟",
+    "messageDetails": "تفاصيل الرسالة",
+    "close": "إغلاق"
+  },
+  "qrScanner": {
+    "title": "مسح رمز QR",
+    "instruction": "وجه الكاميرا نحو رمز QR",
+    "back": "رجوع",
+    "error": "تم رفض الوصول للكاميرا أو غير متاحة"
+  },
+  "common": {
+    "loading": "جارٍ التحميل...",
+    "error": "حدث خطأ",
+    "success": "نجح",
+    "cancel": "إلغاء",
+    "confirm": "تأكيد",
+    "copy": "نسخ",
+    "copied": "تم النسخ!"
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "app": {
+    "title": "Silent Voice Box",
+    "subtitle": "Anonymous Feedback for Your Team"
+  },
+  "landing": {
+    "welcome": "Welcome to Silent Voice Box",
+    "description": "Create anonymous feedback groups or join existing ones to share thoughts safely",
+    "createGroup": "Create Group",
+    "joinGroup": "Join Group",
+    "adminAccess": "Admin Access"
+  },
+  "createGroup": {
+    "title": "Create Anonymous Feedback Group",
+    "companyName": "Company/Team Name",
+    "companyPlaceholder": "Enter your company or team name",
+    "createButton": "Create Group",
+    "back": "Back",
+    "success": "Group Created Successfully!",
+    "groupCode": "Group Code",
+    "adminKey": "Admin Key",
+    "copyCode": "Copy Group Code",
+    "copyKey": "Copy Admin Key",
+    "downloadQR": "Download QR Code",
+    "viewDashboard": "View Dashboard",
+    "shareInfo": "Share the Group Code or QR Code with your team members"
+  },
+  "joinGroup": {
+    "title": "Join Anonymous Feedback Group",
+    "groupCode": "Group Code",
+    "groupPlaceholder": "Enter the group code",
+    "joinButton": "Join Group Anonymously",
+    "back": "Back",
+    "typeCode": "Type Code",
+    "scanQR": "Scan QR",
+    "privacy": "Your feedback will be completely anonymous. Only the group creator can see messages."
+  },
+  "messageForm": {
+    "title": "Anonymous Feedback",
+    "subtitle": "Your voice matters. Share your thoughts safely.",
+    "messagePlaceholder": "Share your thoughts, concerns, or suggestions...",
+    "sendButton": "Send Anonymous Message",
+    "back": "Back",
+    "privacy": "100% Anonymous",
+    "privacyDesc": "Your identity is protected",
+    "success": "Message sent successfully!",
+    "nickname": "Your anonymous nickname"
+  },
+  "adminDashboard": {
+    "title": "Admin Dashboard",
+    "login": "Admin Login",
+    "groupCode": "Group Code",
+    "adminKey": "Admin Key",
+    "loginButton": "Login",
+    "back": "Back",
+    "totalMessages": "Total Messages",
+    "createdOn": "Created On",
+    "noMessages": "No messages yet",
+    "viewMessage": "View",
+    "deleteMessage": "Delete",
+    "confirmDelete": "Are you sure you want to delete this message?",
+    "messageDetails": "Message Details",
+    "close": "Close"
+  },
+  "qrScanner": {
+    "title": "Scan QR Code",
+    "instruction": "Point your camera at the QR code",
+    "back": "Back",
+    "error": "Camera access denied or not available"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "success": "Success",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "copy": "Copy",
+    "copied": "Copied to clipboard!"
+  }
+}

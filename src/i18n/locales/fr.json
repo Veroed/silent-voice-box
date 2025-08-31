@@ -1,0 +1,80 @@
+{
+  "app": {
+    "title": "Boîte Vocale Silencieuse",
+    "subtitle": "Commentaires Anonymes pour Votre Équipe"
+  },
+  "landing": {
+    "welcome": "Bienvenue dans Boîte Vocale Silencieuse",
+    "description": "Créez des groupes de commentaires anonymes ou rejoignez des groupes existants pour partager vos pensées en toute sécurité",
+    "createGroup": "Créer un Groupe",
+    "joinGroup": "Rejoindre un Groupe",
+    "adminAccess": "Accès Administrateur"
+  },
+  "createGroup": {
+    "title": "Créer un Groupe de Commentaires Anonymes",
+    "companyName": "Nom de l'Entreprise/Équipe",
+    "companyPlaceholder": "Entrez le nom de votre entreprise ou équipe",
+    "createButton": "Créer un Groupe",
+    "back": "Retour",
+    "success": "Groupe Créé avec Succès!",
+    "groupCode": "Code du Groupe",
+    "adminKey": "Clé Administrateur",
+    "copyCode": "Copier le Code du Groupe",
+    "copyKey": "Copier la Clé Admin",
+    "downloadQR": "Télécharger le QR Code",
+    "viewDashboard": "Voir le Tableau de Bord",
+    "shareInfo": "Partagez le Code du Groupe ou le QR Code avec les membres de votre équipe"
+  },
+  "joinGroup": {
+    "title": "Rejoindre un Groupe de Commentaires Anonymes",
+    "groupCode": "Code du Groupe",
+    "groupPlaceholder": "Entrez le code du groupe",
+    "joinButton": "Rejoindre Anonymement",
+    "back": "Retour",
+    "typeCode": "Taper le Code",
+    "scanQR": "Scanner QR",
+    "privacy": "Vos commentaires seront complètement anonymes. Seul le créateur du groupe peut voir les messages."
+  },
+  "messageForm": {
+    "title": "Commentaires Anonymes",
+    "subtitle": "Votre voix compte. Partagez vos pensées en toute sécurité.",
+    "messagePlaceholder": "Partagez vos pensées, préoccupations ou suggestions...",
+    "sendButton": "Envoyer un Message Anonyme",
+    "back": "Retour",
+    "privacy": "100% Anonyme",
+    "privacyDesc": "Votre identité est protégée",
+    "success": "Message envoyé avec succès!",
+    "nickname": "Votre pseudonyme anonyme"
+  },
+  "adminDashboard": {
+    "title": "Tableau de Bord Admin",
+    "login": "Connexion Admin",
+    "groupCode": "Code du Groupe",
+    "adminKey": "Clé Administrateur",
+    "loginButton": "Se Connecter",
+    "back": "Retour",
+    "totalMessages": "Total des Messages",
+    "createdOn": "Créé le",
+    "noMessages": "Aucun message pour le moment",
+    "viewMessage": "Voir",
+    "deleteMessage": "Supprimer",
+    "confirmDelete": "Êtes-vous sûr de vouloir supprimer ce message?",
+    "messageDetails": "Détails du Message",
+    "close": "Fermer"
+  },
+  "qrScanner": {
+    "title": "Scanner le QR Code",
+    "instruction": "Pointez votre caméra vers le QR code",
+    "back": "Retour",
+    "error": "Accès à la caméra refusé ou non disponible"
+  },
+  "common": {
+    "loading": "Chargement...",
+    "error": "Une erreur s'est produite",
+    "success": "Succès",
+    "cancel": "Annuler",
+    "confirm": "Confirmer",
+    "copy": "Copier",
+    "copied": "Copié dans le presse-papiers!"
+  }
+}

@@ -1,11 +1,14 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Shield, Users, MessageSquare, Lock } from "lucide-react";
 import CreateGroup from "./CreateGroup";
 import JoinGroup from "./JoinGroup";
+import LanguageSelector from "./LanguageSelector";
 
 const LandingPage = () => {
+  const { t } = useTranslation();
   const [mode, setMode] = useState<"landing" | "create" | "join">("landing");
 
   if (mode === "create") {
@@ -19,16 +22,18 @@ const LandingPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-accent/20 to-background">
       <div className="container mx-auto px-4 py-16">
+        <div className="absolute top-4 right-4">
+          <LanguageSelector />
+        </div>
         <div className="text-center mb-16">
           <div className="inline-flex items-center justify-center p-3 bg-gradient-trust rounded-full mb-6 shadow-secure">
             <Shield className="h-8 w-8 text-white" />
           </div>
           <h1 className="text-5xl font-bold text-foreground mb-4">
-            Anonymous Feedback
+            {t('landing.welcome')}
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            A secure platform for employees to share honest feedback anonymously. 
-            Speak up about what matters without fear.
+            {t('landing.description')}
           </p>
         </div>
 
@@ -38,9 +43,9 @@ const LandingPage = () => {
               <div className="inline-flex items-center justify-center p-2 bg-trust/10 rounded-full mb-4">
                 <Users className="h-6 w-6 text-trust" />
               </div>
-              <CardTitle className="text-2xl">Create a Group</CardTitle>
+              <CardTitle className="text-2xl">{t('landing.createGroup')}</CardTitle>
               <CardDescription className="text-base">
-                Set up anonymous feedback for your team or company
+                {t('createGroup.title')}
               </CardDescription>
             </CardHeader>
             <CardContent className="text-center">
@@ -49,7 +54,7 @@ const LandingPage = () => {
                 className="w-full bg-gradient-trust hover:opacity-90 transition-all duration-300"
                 onClick={() => setMode("create")}
               >
-                Create Group
+                {t('landing.createGroup')}
               </Button>
             </CardContent>
           </Card>
@@ -59,9 +64,9 @@ const LandingPage = () => {
               <div className="inline-flex items-center justify-center p-2 bg-secure/10 rounded-full mb-4">
                 <MessageSquare className="h-6 w-6 text-secure" />
               </div>
-              <CardTitle className="text-2xl">Join a Group</CardTitle>
+              <CardTitle className="text-2xl">{t('landing.joinGroup')}</CardTitle>
               <CardDescription className="text-base">
-                Share your thoughts anonymously with your group code
+                {t('joinGroup.title')}
               </CardDescription>
             </CardHeader>
             <CardContent className="text-center">
@@ -71,7 +76,7 @@ const LandingPage = () => {
                 className="w-full border-secure text-secure hover:bg-secure hover:text-secure-foreground transition-all duration-300"
                 onClick={() => setMode("join")}
               >
-                Join Group
+                {t('landing.joinGroup')}
               </Button>
             </CardContent>
           </Card>
