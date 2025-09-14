@@ -75,6 +75,12 @@
     "cancel": "Annuler",
     "confirm": "Confirmer",
     "copy": "Copier",
-    "copied": "Copié dans le presse-papiers!"
+    "copied": "Copié dans le presse-papiers!",
+    "anonymous": "Complètement Anonyme",
+    "anonymousDesc": "Aucun suivi, aucune identification. Votre identité reste privée.",
+    "secure": "Sécurisé et Privé",
+    "secureDesc": "La sécurité de bout en bout garantit la protection de vos messages.",
+    "communication": "Communication Ouverte",
+    "communicationDesc": "Dites ce qui doit être dit sans crainte de représailles."
   }
 }

@@ -75,6 +75,12 @@
     "cancel": "Cancel",
     "confirm": "Confirm",
     "copy": "Copy",
-    "copied": "Copied to clipboard!"
+    "copied": "Copied to clipboard!",
+    "anonymous": "Completely Anonymous",
+    "anonymousDesc": "No tracking, no identification. Your identity stays private.",
+    "secure": "Secure & Private",
+    "secureDesc": "End-to-end security ensures your messages are protected.",
+    "communication": "Open Communication",
+    "communicationDesc": "Say what needs to be said without fear of retaliation."
   }
 }
