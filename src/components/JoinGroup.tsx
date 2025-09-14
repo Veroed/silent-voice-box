@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ArrowLeft, Shield, Camera, Keyboard } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 import MessageForm from "./MessageForm";
 import QRCodeScanner from "./QRCodeScanner";
 
@@ -20,7 +21,7 @@ const JoinGroup = ({ onBack }: JoinGroupProps) => {
   const [inputMethod, setInputMethod] = useState<'manual' | 'qr'>('manual');
   const { toast } = useToast();
 
-  const handleJoinGroup = (code?: string) => {
+  const handleJoinGroup = async (code?: string) => {
     const codeToUse = code || groupCode;
     
     if (!codeToUse.trim()) {
@@ -32,28 +33,42 @@ const JoinGroup = ({ onBack }: JoinGroupProps) => {
       return;
     }
 
-    // Check if group exists in localStorage
-    const storedGroup = localStorage.getItem(`group_${codeToUse.toUpperCase()}`);
-    
-    if (!storedGroup) {
+    try {
+      // Check if group exists in Supabase
+      const { data: group, error } = await supabase
+        .from('groups')
+        .select('*')
+        .eq('code', codeToUse.toUpperCase())
+        .maybeSingle();
+      
+      if (error) throw error;
+      
+      if (!group) {
+        toast({
+          title: "Group not found",
+          description: "Invalid group code. Please check and try again.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      setGroupData(group);
+      setGroupCode(codeToUse.toUpperCase());
+      setGroupJoined(true);
+      setShowScanner(false);
+
       toast({
-        title: "Group not found",
-        description: "Invalid group code. Please check and try again.",
+        title: "Successfully joined!",
+        description: `Welcome to ${group.company_name}'s feedback group.`,
+      });
+    } catch (error) {
+      console.error('Error joining group:', error);
+      toast({
+        title: "Error joining group",
+        description: "Please try again.",
         variant: "destructive",
       });
-      return;
     }
-
-    const groupInfo = JSON.parse(storedGroup);
-    setGroupData(groupInfo);
-    setGroupCode(codeToUse.toUpperCase());
-    setGroupJoined(true);
-    setShowScanner(false);
-
-    toast({
-      title: "Successfully joined!",
-      description: `Welcome to ${groupInfo.companyName}'s feedback group.`,
-    });
   };
 
   const handleQRScan = (scannedCode: string) => {
@@ -64,7 +79,8 @@ const JoinGroup = ({ onBack }: JoinGroupProps) => {
     return (
       <MessageForm 
         groupCode={groupCode.toUpperCase()} 
-        companyName={groupData.companyName} 
+        companyName={groupData.company_name}
+        groupId={groupData.id}
         onBack={() => setGroupJoined(false)} 
       />
     );

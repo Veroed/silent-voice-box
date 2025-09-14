@@ -5,14 +5,16 @@ import { Textarea } from "@/components/ui/textarea";
 import { ArrowLeft, Send, Shield, CheckCircle, User } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { getUserNickname } from "@/lib/nickname-utils";
+import { supabase } from "@/integrations/supabase/client";
 
 interface MessageFormProps {
   groupCode: string;
   companyName: string;
+  groupId: string;
   onBack: () => void;
 }
 
-const MessageForm = ({ groupCode, companyName, onBack }: MessageFormProps) => {
+const MessageForm = ({ groupCode, companyName, groupId, onBack }: MessageFormProps) => {
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [messagesSent, setMessagesSent] = useState(0);
@@ -40,27 +42,17 @@ const MessageForm = ({ groupCode, companyName, onBack }: MessageFormProps) => {
     setIsSubmitting(true);
 
     try {
-      // Get existing group data
-      const storedGroup = localStorage.getItem(`group_${groupCode}`);
-      if (!storedGroup) {
-        throw new Error("Group not found");
-      }
+      // Save message to Supabase
+      const { error } = await supabase
+        .from('messages')
+        .insert({
+          group_id: groupId,
+          content: message.trim(),
+          nickname: userNickname,
+          ip_hash: 'anonymous' // We don't store actual IPs for privacy
+        });
 
-      const groupData = JSON.parse(storedGroup);
-      
-      // Add new message with nickname
-      const newMessage = {
-        id: Date.now().toString(),
-        content: message.trim(),
-        timestamp: new Date().toISOString(),
-        nickname: userNickname,
-        anonymous: true
-      };
-
-      groupData.messages = [...(groupData.messages || []), newMessage];
-
-      // Save back to localStorage
-      localStorage.setItem(`group_${groupCode}`, JSON.stringify(groupData));
+      if (error) throw error;
 
       toast({
         title: "Message sent anonymously!",
@@ -70,6 +62,7 @@ const MessageForm = ({ groupCode, companyName, onBack }: MessageFormProps) => {
       setMessage("");
       setMessagesSent(messagesSent + 1);
     } catch (error) {
+      console.error('Error sending message:', error);
       toast({
         title: "Failed to send message",
         description: "Please try again.",

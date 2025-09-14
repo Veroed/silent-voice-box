@@ -5,13 +5,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ArrowLeft, MessageSquare, Users, Calendar, Trash2, Eye } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 interface Message {
   id: string;
   content: string;
-  timestamp: string;
+  created_at: string;
   nickname?: string;
-  anonymous: boolean;
 }
 
 interface AdminDashboardProps {
@@ -29,14 +29,20 @@ const AdminDashboard = ({ groupCode: initialGroupCode, adminKey: initialAdminKey
   const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
   const { toast } = useToast();
 
-  const loadMessages = () => {
-    if (!groupCode) return;
+  const loadMessages = async () => {
+    if (!groupCode || !groupData) return;
     
-    const storedGroup = localStorage.getItem(`group_${groupCode.toUpperCase()}`);
-    if (storedGroup) {
-      const data = JSON.parse(storedGroup);
-      setGroupData(data);
-      setMessages(data.messages || []);
+    try {
+      const { data: messages, error } = await supabase
+        .from('messages')
+        .select('*')
+        .eq('group_id', groupData.id)
+        .order('created_at', { ascending: false });
+      
+      if (error) throw error;
+      setMessages(messages || []);
+    } catch (error) {
+      console.error('Error loading messages:', error);
     }
   };
 
@@ -49,7 +55,7 @@ const AdminDashboard = ({ groupCode: initialGroupCode, adminKey: initialAdminKey
     }
   }, [isAuthenticated, groupCode]);
 
-  const handleAdminLogin = () => {
+  const handleAdminLogin = async () => {
     if (!groupCode.trim() || !adminKey.trim()) {
       toast({
         title: "Missing information",
@@ -59,53 +65,67 @@ const AdminDashboard = ({ groupCode: initialGroupCode, adminKey: initialAdminKey
       return;
     }
 
-    const storedGroup = localStorage.getItem(`group_${groupCode.toUpperCase()}`);
-    
-    if (!storedGroup) {
+    try {
+      const { data: group, error } = await supabase
+        .from('groups')
+        .select('*')
+        .eq('code', groupCode.toUpperCase())
+        .eq('admin_key', adminKey)
+        .maybeSingle();
+      
+      if (error) throw error;
+      
+      if (!group) {
+        toast({
+          title: "Access denied",
+          description: "Invalid group code or admin key.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      setIsAuthenticated(true);
+      setGroupData(group);
+      
       toast({
-        title: "Group not found",
-        description: "Invalid group code.",
+        title: "Access granted",
+        description: `Welcome to ${group.company_name}'s admin dashboard.`,
+      });
+    } catch (error) {
+      console.error('Error during admin login:', error);
+      toast({
+        title: "Login error",
+        description: "Please try again.",
         variant: "destructive",
       });
-      return;
     }
-
-    const data = JSON.parse(storedGroup);
-    
-    if (data.adminKey !== adminKey) {
-      toast({
-        title: "Access denied",
-        description: "Invalid admin key.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setIsAuthenticated(true);
-    setGroupData(data);
-    setMessages(data.messages || []);
-    
-    toast({
-      title: "Access granted",
-      description: `Welcome to ${data.companyName}'s admin dashboard.`,
-    });
   };
 
-  const deleteMessage = (messageId: string) => {
-    if (!groupCode) return;
+  const deleteMessage = async (messageId: string) => {
+    try {
+      const { error } = await supabase
+        .from('messages')
+        .delete()
+        .eq('id', messageId);
+      
+      if (error) throw error;
 
-    const updatedMessages = messages.filter(msg => msg.id !== messageId);
-    const updatedGroupData = { ...groupData, messages: updatedMessages };
-    
-    localStorage.setItem(`group_${groupCode.toUpperCase()}`, JSON.stringify(updatedGroupData));
-    setMessages(updatedMessages);
-    setGroupData(updatedGroupData);
-    setSelectedMessage(null);
-    
-    toast({
-      title: "Message deleted",
-      description: "The message has been removed.",
-    });
+      const updatedMessages = messages.filter(msg => msg.id !== messageId);
+      setMessages(updatedMessages);
+      setSelectedMessage(null);
+      
+      toast({
+        title: "Message deleted",
+        description: "The message has been removed from the system.",
+      });
+    } catch (error) {
+      console.error('Error deleting message:', error);
+      toast({
+        title: "Delete failed",
+        description: "Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   const formatDate = (timestamp: string) => {
@@ -183,7 +203,7 @@ const AdminDashboard = ({ groupCode: initialGroupCode, adminKey: initialAdminKey
 
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-foreground mb-2">
-            {groupData?.companyName} - Admin Dashboard
+            {groupData?.company_name} - Admin Dashboard
           </h1>
           <p className="text-muted-foreground">
             Viewing anonymous feedback for group <span className="font-mono bg-accent/50 px-2 py-1 rounded">{groupCode}</span>
@@ -221,7 +241,7 @@ const AdminDashboard = ({ groupCode: initialGroupCode, adminKey: initialAdminKey
                 <Calendar className="h-8 w-8 text-primary" />
                 <div>
                   <p className="text-sm font-medium">
-                    {groupData?.createdAt ? formatDate(groupData.createdAt).split(',')[0] : 'N/A'}
+                    {groupData?.created_at ? formatDate(groupData.created_at).split(',')[0] : 'N/A'}
                   </p>
                   <p className="text-sm text-muted-foreground">Created</p>
                 </div>
@@ -257,7 +277,7 @@ const AdminDashboard = ({ groupCode: initialGroupCode, adminKey: initialAdminKey
                       <div className="flex justify-between items-start mb-2">
                         <div className="flex items-center gap-2">
                           <span className="text-xs text-muted-foreground bg-accent/50 px-2 py-1 rounded">
-                            {message.nickname || 'Anonymous'} • {formatDate(message.timestamp)}
+                            {message.nickname || 'Anonymous'} • {formatDate(message.created_at)}
                           </span>
                         </div>
                         <div className="flex gap-2">
@@ -309,7 +329,7 @@ const AdminDashboard = ({ groupCode: initialGroupCode, adminKey: initialAdminKey
                 <div className="flex justify-between items-start">
                   <div>
                     <CardTitle>{selectedMessage.nickname || 'Anonymous'} Message</CardTitle>
-                    <CardDescription>{formatDate(selectedMessage.timestamp)}</CardDescription>
+                    <CardDescription>{formatDate(selectedMessage.created_at)}</CardDescription>
                   </div>
                   <Button
                     variant="ghost"

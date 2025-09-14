@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ArrowLeft, Copy, Users, Shield, CheckCircle, QrCode, Download } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 import AdminDashboard from "./AdminDashboard";
 import QRCode from 'qrcode';
 
@@ -38,17 +39,21 @@ const CreateGroup = ({ onBack }: CreateGroupProps) => {
     const newGroupCode = generateCode();
     const newAdminKey = `ADMIN-${generateCode()}-${generateCode()}`;
     
-    // In a real app, this would save to database
-    localStorage.setItem(`group_${newGroupCode}`, JSON.stringify({
-      companyName,
-      adminKey: newAdminKey,
-      messages: [],
-      createdAt: new Date().toISOString()
-    }));
+    try {
+      // Save to Supabase database
+      const { error } = await supabase
+        .from('groups')
+        .insert({
+          code: newGroupCode,
+          admin_key: newAdminKey,
+          company_name: companyName
+        });
 
-    setGroupCode(newGroupCode);
-    setAdminKey(newAdminKey);
-    setGroupCreated(true);
+      if (error) throw error;
+
+      setGroupCode(newGroupCode);
+      setAdminKey(newAdminKey);
+      setGroupCreated(true);
 
     // Generate QR code
     try {
@@ -66,10 +71,18 @@ const CreateGroup = ({ onBack }: CreateGroupProps) => {
       console.error('Failed to generate QR code:', error);
     }
 
-    toast({
-      title: "Group created successfully!",
-      description: "Share the group code with your team members.",
-    });
+      toast({
+        title: "Group created successfully!",
+        description: "Share the group code with your team members.",
+      });
+    } catch (error) {
+      console.error('Error creating group:', error);
+      toast({
+        title: "Failed to create group",
+        description: "Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   const copyToClipboard = (text: string, type: string) => {
